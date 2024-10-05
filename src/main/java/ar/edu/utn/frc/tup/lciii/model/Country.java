@@ -20,6 +20,7 @@ public class Country {
     private double area;
     private String code;
     private String region;
+    private Map<String, String> continent;
     private List<String> borders;
     private Map<String, String> languages;
 }

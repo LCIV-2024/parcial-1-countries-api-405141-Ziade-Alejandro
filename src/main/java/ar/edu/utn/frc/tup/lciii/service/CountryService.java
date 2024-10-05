@@ -42,6 +42,7 @@ public class CountryService {
                         .code((String) countryData.get("cca3"))
                         .region((String) countryData.get("region"))
                         .languages((Map<String, String>) countryData.get("languages"))
+                        .continent((Map<String, String>) countryData.get("continent"))
                         .borders((List<String>) countryData.get("borders"))
                         .build();
         }
@@ -61,5 +62,65 @@ public class CountryService {
                 }
 
                 return dtos;
+        }
+
+        public List<CountryDto> getCountriesWithParam(String param) {
+
+                List<CountryDto> dtosFiltered = new ArrayList<>();
+                if (param == null || param.isEmpty()) {
+                        return null;
+                } else if (param.equals("name")) {
+                        for (CountryDto country : getAllCountriesDtos()) {
+                                if (country.getName().equals(param)) {
+                                        dtosFiltered.add(country);
+                                }
+                        }
+                } else {
+                        for (CountryDto country : getAllCountriesDtos()) {
+                                if (country.getName().equals(param)) {
+                                        dtosFiltered.add(country);
+                                }
+                        }
+                }
+                return dtosFiltered;
+        }
+
+        public List<CountryDto> getAllInContinent(String continent) {
+                List<CountryDto> dtosFiltered = new ArrayList<>();
+                List<Country> responce = getAllCountries();
+                for (Country country : responce) {
+                       if (country.getContinent().containsValue(continent.toUpperCase())) {
+                               CountryDto countryDto = mapToDTO(country);
+                               dtosFiltered.add(countryDto);
+                       }
+                }
+                return dtosFiltered;
+        }
+
+        public List<CountryDto> getAllInLanguage(String language) {
+                List<CountryDto> dtosFiltered = new ArrayList<>();
+                List<Country> responce = getAllCountries();
+                for (Country country : responce) {
+                        if (country.getLanguages().containsValue(language)) {
+                                CountryDto countryDto = mapToDTO(country);
+                                dtosFiltered.add(countryDto);
+                        }
+                }
+                return dtosFiltered;
+        }
+
+
+        public CountryDto getMost() {
+                List<Country> responce = getAllCountries();
+                CountryDto dto = new CountryDto();
+                int counter=0;
+
+                for (Country country : responce) {
+                        if (counter<country.getBorders().size()){
+                                dto = mapToDTO(country);
+                                counter = country.getBorders().size();
+                        }
+                }
+                return dto;
         }
 }

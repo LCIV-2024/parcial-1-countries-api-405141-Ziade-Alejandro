@@ -11,7 +11,7 @@ import java.util.Timer;
 @Configuration
 public class RestTemplateConfig {
 
-    private final static int TIMEOUT = 1000;
+    private final static int TIMEOUT = 5000;
 
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
