@@ -1,11 +1,14 @@
 package ar.edu.utn.frc.tup.lciii.service;
 
+import ar.edu.utn.frc.tup.lciii.dtos.country.CountryDto;
 import ar.edu.utn.frc.tup.lciii.model.Country;
 import ar.edu.utn.frc.tup.lciii.repository.CountryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -14,8 +17,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CountryService {
 
+        @Autowired
         private final CountryRepository countryRepository;
 
+        @Autowired
         private final RestTemplate restTemplate;
 
         public List<Country> getAllCountries() {
@@ -34,13 +39,27 @@ public class CountryService {
                         .name((String) nameData.get("common"))
                         .population(((Number) countryData.get("population")).longValue())
                         .area(((Number) countryData.get("area")).doubleValue())
+                        .code((String) countryData.get("cca3"))
                         .region((String) countryData.get("region"))
                         .languages((Map<String, String>) countryData.get("languages"))
+                        .borders((List<String>) countryData.get("borders"))
                         .build();
         }
 
 
-        private CountryDTO mapToDTO(Country country) {
-                return new CountryDTO(country.getCode(), country.getName());
+        private CountryDto mapToDTO(Country country) {
+                return new CountryDto(country.getCode(), country.getName());
+        }
+
+        public List<CountryDto> getAllCountriesDtos() {
+                List<CountryDto> dtos = new ArrayList<>();
+                List<Country> responce = getAllCountries();
+
+                for (Country count : responce){
+                        CountryDto countryDto = mapToDTO(count);
+                        dtos.add(countryDto);
+                }
+
+                return dtos;
         }
 }
