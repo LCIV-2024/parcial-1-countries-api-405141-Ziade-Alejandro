@@ -1,0 +1,14 @@
+version: '3.9'  # Versión del esquema de Docker Compose que se está utilizando, en este caso la 3.9.
+
+services:  # Define los servicios que se van a crear.
+
+  country:
+    container_name: country-app
+    image: country-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+
+

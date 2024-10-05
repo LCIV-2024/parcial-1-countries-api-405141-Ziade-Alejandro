@@ -24,16 +24,22 @@ public class CountryController {
     }
 
     @GetMapping("/countries/")
-    public  ResponseEntity<List<CountryDto>> getCountriesWithParam(@RequestParam("name") String name, @RequestParam("code") String code){
-        if(name.equals("")&&code.equals("code")){
-            List<CountryDto> allcountries = countryService.getCountriesWithParam(code);
-            return ResponseEntity.ok(allcountries);
-        }else if(name.equals("name")&&code.equals("")) {
+    public  ResponseEntity<List<CountryDto>> getCountriesWithParam(@RequestParam(value = "name", required = false) String name
+            , @RequestParam(value = "code",required = false) String code){
+
+        if (name.isEmpty() || code.isEmpty()){
+            return ResponseEntity.ok(countryService.getAllCountriesDtos());
+        } else if (code.isEmpty()&&!name.isEmpty()) {
             List<CountryDto> allcountries = countryService.getCountriesWithParam(name);
+            return ResponseEntity.ok(allcountries);
+        } else if (!code.isEmpty()&&name.isEmpty()) {
+            List<CountryDto> allcountries = countryService.getCountriesWithParam(code);
             return ResponseEntity.ok(allcountries);
         } else {
             return ResponseEntity.notFound().build();
         }
+
+
     }
 
     @GetMapping("countries/{continent}/continent")
