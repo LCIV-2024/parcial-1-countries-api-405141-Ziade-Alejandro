@@ -27,32 +27,29 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 public class Countrycontroller {
-////    @Autowired
-////    private MockMvc mockMvc;
-//
-//    @MockBean
-//    private CountryService countryService;
-//
-////    @Autowired
-////    private ObjectMapper objectMapper;
-//
-//    @SpyBean
-//    private CountryController countryController;
-//
-//    @Test
-//    public void getCountriesTest ()  {
-//        CountryDto countryDto = new CountryDto("one","two");
-//        CountryDto countryDto2 = new CountryDto("two","four");
-//
-//        List<CountryDto> list = new ArrayList<>();
-//        list.add(countryDto2);
-//        list.add(countryDto);
-//
-//        when(countryService.getAllCountriesDtos())
-//                .thenReturn(list);
-//
-//        ResponseEntity<List<CountryDto>> responseEntity = countryController.getCountries();
-//
-//        assertEquals(2, Objects.requireNonNull(responseEntity.getBody()).size());
-//    }
+
+
+    @MockBean
+    private CountryService countryService;
+
+
+    @SpyBean
+    private CountryController countryController;
+
+    @Test
+    public void getCountriesTest ()  {
+        CountryDto countryDto = new CountryDto("one","two");
+        CountryDto countryDto2 = new CountryDto("two","four");
+
+        List<CountryDto> list = new ArrayList<>();
+        list.add(countryDto2);
+        list.add(countryDto);
+
+        when(countryService.getAllCountriesDtos())
+                .thenReturn(list);
+
+        ResponseEntity<List<CountryDto>> responseEntity = countryController.getCountries();
+
+        assertEquals(2, Objects.requireNonNull(responseEntity.getBody()).size());
+    }
 }

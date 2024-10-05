@@ -24,4 +24,13 @@ public class CountryServiceTest {
         assertEquals(amount,contries.size());
 
     }
+
+    @Test
+    public void postTest(){
+        int amount = 2;
+
+        List<CountryDto> contries = countryService.postCountries(amount);
+
+        assertEquals(amount,contries.size());
+    }
 }
