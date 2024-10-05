@@ -1,5 +1,6 @@
 package ar.edu.utn.frc.tup.lciii.service;
 
+import ar.edu.utn.frc.tup.lciii.Entity.CountryEntity;
 import ar.edu.utn.frc.tup.lciii.dtos.country.CountryDto;
 import ar.edu.utn.frc.tup.lciii.model.Country;
 import ar.edu.utn.frc.tup.lciii.repository.CountryRepository;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -122,5 +124,27 @@ public class CountryService {
                         }
                 }
                 return dto;
+        }
+
+        public List<CountryDto> postCountries(int amount) {
+                List<Country> responce = getAllCountries();
+                List<CountryDto> dtos = new ArrayList<>();
+
+
+                Collections.shuffle(responce);
+
+                for (int i = 0; i < amount; i++) {
+                        Country country = responce.get(i);
+                        dtos.add(mapToDTO(country));
+                        CountryEntity newCountry = new CountryEntity();
+                        newCountry.setArea(country.getArea());
+                        newCountry.setName(country.getName());
+                        newCountry.setCode(country.getCode());
+                        newCountry.setPopulation(country.getPopulation());
+
+                        countryRepository.save(newCountry);
+                }
+
+                return dtos;
         }
 }

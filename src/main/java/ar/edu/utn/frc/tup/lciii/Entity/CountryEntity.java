@@ -9,6 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "countries")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class CountryEntity {
@@ -18,4 +19,5 @@ public class CountryEntity {
     private String name;
     private double area;
     private String code;
+    private long population;
 }

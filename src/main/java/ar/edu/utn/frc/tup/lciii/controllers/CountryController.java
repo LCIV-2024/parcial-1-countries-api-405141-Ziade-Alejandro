@@ -1,5 +1,6 @@
 package ar.edu.utn.frc.tup.lciii.controllers;
 import ar.edu.utn.frc.tup.lciii.dtos.country.CountryDto;
+import ar.edu.utn.frc.tup.lciii.dtos.country.amountCountry;
 import ar.edu.utn.frc.tup.lciii.service.CountryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,16 @@ public class CountryController {
     public ResponseEntity<CountryDto> getMostBorderCountries(){
         CountryDto country= countryService.getMost();
         return ResponseEntity.ok(country);
+    }
+
+    @PostMapping("/countries")
+    public ResponseEntity<List<CountryDto>> postRandom(@RequestBody amountCountry amount){
+        if (amount.getAmountOfCountryToSave()>10||amount.getAmountOfCountryToSave()<0){
+            return ResponseEntity.badRequest().build();
+        } else {
+            List<CountryDto> allCountries = countryService.postCountries(amount.getAmountOfCountryToSave());
+            return ResponseEntity.ok(allCountries);
+        }
     }
 
 }
